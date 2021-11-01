@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element, unnecessary_new
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -34,12 +36,21 @@ class _MyHomePage extends StatefulWidget {
 class __MyHomePageState extends State<_MyHomePage> {
   TextEditingController txt = TextEditingController();
   var lst = [];
+
+  int get = 0;
+
   String gettext = "";
 
   submit() {
     setState(() {
       lst.add(gettext);
       print(lst);
+    });
+  }
+
+  remove() {
+    setState(() {
+      lst.removeAt(get);
     });
   }
 
@@ -64,6 +75,42 @@ class __MyHomePageState extends State<_MyHomePage> {
                   txt.clear();
                 },
                 child: Text("Ok"),
+                color: Colors.pinkAccent,
+              )
+            ],
+          );
+        });
+  }
+
+  remooveAlertDailogWidget(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Task"),
+            content: TextField(
+              decoration: InputDecoration(hintText: "Enter Task no."),
+              controller: txt,
+              onChanged: (value) {
+                get = value as int;
+              },
+            ),
+            actions: [
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  txt.clear();
+                },
+                child: Text("No"),
+                color: Colors.pinkAccent,
+              ),
+              RaisedButton(
+                onPressed: () {
+                  remove();
+                  Navigator.of(context).pop();
+                  txt.clear();
+                },
+                child: Text("Yes"),
                 color: Colors.pinkAccent,
               )
             ],
@@ -137,7 +184,17 @@ class __MyHomePageState extends State<_MyHomePage> {
                       }),
                   top: -10,
                   right: 30,
-                )
+                ),
+                Positioned(
+                  child: FloatingActionButton(
+                      child: Icon(Icons.remove, color: Colors.white),
+                      backgroundColor: Colors.pinkAccent,
+                      onPressed: () {
+                        remooveAlertDailogWidget(context);
+                      }),
+                  top: -10,
+                  right: 100,
+                ),
               ]);
             },
           )

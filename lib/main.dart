@@ -38,6 +38,7 @@ class __MyHomePageState extends State<_MyHomePage> {
   var lst = [];
 
   int get = 0;
+  String gettext1 = "";
 
   String gettext = "";
 
@@ -51,6 +52,13 @@ class __MyHomePageState extends State<_MyHomePage> {
   remove() {
     setState(() {
       lst.removeAt(get);
+    });
+  }
+
+  update() {
+    setState(() {
+      int i = lst.length;
+      lst.insert(i, gettext1);
     });
   }
 
@@ -71,6 +79,35 @@ class __MyHomePageState extends State<_MyHomePage> {
               RaisedButton(
                 onPressed: () {
                   submit();
+                  Navigator.of(context).pop();
+                  txt.clear();
+                },
+                child: Text("Ok"),
+                color: Colors.pinkAccent,
+              )
+            ],
+          );
+        });
+  }
+
+  updateWidget(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Task"),
+            content: TextField(
+              decoration: InputDecoration(
+                  hintText: "Enter What ever you want to Update"),
+              controller: txt,
+              onChanged: (value) {
+                gettext1 = value;
+              },
+            ),
+            actions: [
+              RaisedButton(
+                onPressed: () {
+                  update();
                   Navigator.of(context).pop();
                   txt.clear();
                 },
@@ -194,6 +231,16 @@ class __MyHomePageState extends State<_MyHomePage> {
                       }),
                   top: -10,
                   right: 100,
+                ),
+                Positioned(
+                  child: FloatingActionButton(
+                      child: Icon(Icons.update, color: Colors.white),
+                      backgroundColor: Colors.pinkAccent,
+                      onPressed: () {
+                        updateWidget(context);
+                      }),
+                  top: -10,
+                  right: 170,
                 ),
               ]);
             },

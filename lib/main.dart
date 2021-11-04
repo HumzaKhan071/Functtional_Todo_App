@@ -41,6 +41,8 @@ class __MyHomePageState extends State<_MyHomePage> {
   String gettext1 = "";
 
   String gettext = "";
+  String upd1 = "";
+  int get1 = 0;
 
   submit() {
     setState(() {
@@ -57,8 +59,7 @@ class __MyHomePageState extends State<_MyHomePage> {
 
   update() {
     setState(() {
-      int i = lst.length;
-      lst.insert(i, gettext1);
+      lst[0] = upd1;
     });
   }
 
@@ -101,7 +102,7 @@ class __MyHomePageState extends State<_MyHomePage> {
                   hintText: "Enter What ever you want to Update"),
               controller: txt,
               onChanged: (value) {
-                gettext1 = value;
+                upd1 = value;
               },
             ),
             actions: [

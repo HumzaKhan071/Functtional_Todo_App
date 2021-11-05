@@ -35,6 +35,7 @@ class _MyHomePage extends StatefulWidget {
 
 class __MyHomePageState extends State<_MyHomePage> {
   TextEditingController txt = TextEditingController();
+  TextEditingController txt1 = TextEditingController();
   var lst = [];
 
   int get = 0;
@@ -57,11 +58,7 @@ class __MyHomePageState extends State<_MyHomePage> {
     });
   }
 
-  update() {
-    setState(() {
-      lst[0] = upd1;
-    });
-  }
+ 
 
   textFieldAlertDailogWidget(BuildContext context) {
     showDialog(
@@ -80,35 +77,6 @@ class __MyHomePageState extends State<_MyHomePage> {
               RaisedButton(
                 onPressed: () {
                   submit();
-                  Navigator.of(context).pop();
-                  txt.clear();
-                },
-                child: Text("Ok"),
-                color: Colors.pinkAccent,
-              )
-            ],
-          );
-        });
-  }
-
-  updateWidget(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Task"),
-            content: TextField(
-              decoration: InputDecoration(
-                  hintText: "Enter What ever you want to Update"),
-              controller: txt,
-              onChanged: (value) {
-                upd1 = value;
-              },
-            ),
-            actions: [
-              RaisedButton(
-                onPressed: () {
-                  update();
                   Navigator.of(context).pop();
                   txt.clear();
                 },
@@ -205,8 +173,40 @@ class __MyHomePageState extends State<_MyHomePage> {
                               color: Colors.grey[700],
                             ),
                           ),
-                          trailing: Icon(Icons.check_circle,
-                              color: Colors.greenAccent),
+                          trailing: IconButton(
+                              icon: const Icon(Icons.update,
+                                  color: Colors.greenAccent),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Task"),
+                                        content: TextField(
+                                          decoration: InputDecoration(
+                                              hintText:
+                                                  "Enter What ever you want to Update"),
+                                          controller: txt1,
+                                          onChanged: (value) {
+                                            upd1 = value;
+                                          },
+                                        ),
+                                        actions: [
+                                          RaisedButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                lst[index] = upd1;
+                                              });
+                                              Navigator.of(context).pop();
+                                              txt1.clear();
+                                            },
+                                            child: Text("Ok"),
+                                            color: Colors.pinkAccent,
+                                          )
+                                        ],
+                                      );
+                                    });
+                              }),
                           isThreeLine: true,
                         );
                       },
@@ -232,16 +232,6 @@ class __MyHomePageState extends State<_MyHomePage> {
                       }),
                   top: -10,
                   right: 100,
-                ),
-                Positioned(
-                  child: FloatingActionButton(
-                      child: Icon(Icons.update, color: Colors.white),
-                      backgroundColor: Colors.pinkAccent,
-                      onPressed: () {
-                        updateWidget(context);
-                      }),
-                  top: -10,
-                  right: 170,
                 ),
               ]);
             },
